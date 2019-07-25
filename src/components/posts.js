@@ -1,6 +1,7 @@
 import React from "react";
 import { getPosts } from "../adapter/api";
 import SearchIcon from "@material-ui/icons/Search";
+// import MoreIcon from "@material-ui/icons/MoreVert";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -82,9 +83,19 @@ class Posts extends React.Component {
             allPosts.map((post, i) => (
               <div key={post.id}>
                 {clicked.includes(post.id) ? (
-                  <h3 css={pinkFont} onClick={() => this.handleClose(post.id)}>
-                    {post.title}
-                  </h3>
+                  <CurrentPost>
+                    <h3
+                      css={pinkFont}
+                      onClick={() => this.handleClose(post.id)}
+                    >
+                      {post.title}
+                    </h3>
+                    {/* <div>
+                      <MoreIcon
+                        style={{ color: "#181bed", paddingBottom: 0 }}
+                      />
+                    </div> */}
+                  </CurrentPost>
                 ) : (
                   <h3 css={pinkFont} onClick={() => this.handleOpen(post.id)}>
                     {post.title}
@@ -152,6 +163,12 @@ const Content = styled.div`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    width: 60%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const pinkFont = css`
@@ -161,3 +178,19 @@ const pinkFont = css`
   cursor: pointer;
   font-family: ${mont};
 `;
+
+const CurrentPost = styled.div``;
+
+// display: grid;
+// grid-template-columns: 1fr 20px;
+// border: 1px solid red;
+// div {
+//   border: 1px solid red;
+//   display: flex;
+//   justify-content: center;
+//   flex-direction: column;
+//   text-align: center;
+// }
+// h3 {
+//   border: 1px solid red;
+// }
