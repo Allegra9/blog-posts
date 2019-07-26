@@ -1,7 +1,7 @@
 import React from "react";
 import { getPosts } from "../adapter/api";
 import SearchIcon from "@material-ui/icons/Search";
-// import MoreIcon from "@material-ui/icons/MoreVert";
+import Dropdown from "./dropdown";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -90,11 +90,11 @@ class Posts extends React.Component {
                     >
                       {post.title}
                     </h3>
-                    {/* <div>
-                      <MoreIcon
-                        style={{ color: "#181bed", paddingBottom: 0 }}
-                      />
-                    </div> */}
+                    <div>
+                      <IconContainer>
+                        <Dropdown style={{ paddingBottom: 0 }} />
+                      </IconContainer>
+                    </div>
                   </CurrentPost>
                 ) : (
                   <h3 css={pinkFont} onClick={() => this.handleOpen(post.id)}>
@@ -138,14 +138,21 @@ const Content = styled.div`
     font-size: 35px;
     font-weight: ${thick};
   }
+  h3 {
+    margin-top: auto;
+    margin-bottom: 20px;
+  }
   p {
     color: ${dark};
     font-family: ${mont};
     font-size: 15px;
     font-weight: ${thin};
     letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 30px;
   }
   form {
+    margin-bottom: 20px;
     input {
       border: 0;
       border-bottom: 2px solid ${purple};
@@ -179,18 +186,26 @@ const pinkFont = css`
   font-family: ${mont};
 `;
 
-const CurrentPost = styled.div``;
+const CurrentPost = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  div {
+    display: flex;
+    justify-content: center;
+  }
+  h3 {
+    margin-top: auto;
+    margin-bottom: 20px;
+  }
+`;
 
-// display: grid;
-// grid-template-columns: 1fr 20px;
-// border: 1px solid red;
-// div {
-//   border: 1px solid red;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: column;
-//   text-align: center;
-// }
-// h3 {
-//   border: 1px solid red;
-// }
+const IconContainer = styled.div`
+  padding: 2px;
+  cursor: pointer;
+  svg {
+    color: ${lightGrey};
+    &:hover {
+      color: ${pink};
+    }
+  }
+`;
