@@ -1,5 +1,4 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -8,80 +7,44 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const StyledMenu = withStyles({
-  paper: {
-    border: "1px solid #d3d4d5"
-  }
-})(props => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center"
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "center"
-    }}
-    {...props}
-  />
-));
-
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    "&:focus": {
-      backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white
-      }
-    }
-  }
-}))(MenuItem);
-
-export default function CustomizedMenus() {
+const Dropdown = ({ handleEdit, handleDelete, postId }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  function handleClick(event) {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
-  function handleClose() {
+  const handleClose = event => {
     setAnchorEl(null);
-  }
+  };
 
   return (
     <div>
       <MoreIcon onClick={handleClick} />
 
-      <StyledMenu
-        id="customized-menu"
+      <Menu
+        id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
+        <MenuItem onClick={() => handleEdit(postId)}>
           <ListItemIcon style={{ paddingRight: "0 !important", minWidth: 33 }}>
             <EditIcon />
           </ListItemIcon>
           <ListItemText primary="Edit" />
-        </StyledMenuItem>
+        </MenuItem>
 
-        <StyledMenuItem>
+        <MenuItem onClick={() => handleDelete(postId)}>
           <ListItemIcon style={{ paddingRight: "0 !important", minWidth: 33 }}>
             <DeleteIcon />
           </ListItemIcon>
           <ListItemText primary="Delete" />
-        </StyledMenuItem>
-
-        {/* <StyledMenuItem>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </StyledMenuItem> */}
-      </StyledMenu>
+        </MenuItem>
+      </Menu>
     </div>
   );
-}
+};
+
+export default Dropdown;

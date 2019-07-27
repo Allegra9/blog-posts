@@ -7,7 +7,9 @@ import Dropdown from "./dropdown";
 import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
 
+// eslint-disable-next-line
 const Montserrat = require("typeface-montserrat");
+// eslint-disable-next-line
 const Merriweather = require("typeface-merriweather");
 
 class Posts extends React.Component {
@@ -15,7 +17,8 @@ class Posts extends React.Component {
     posts: [],
     filteredPosts: [],
     clicked: [],
-    query: ""
+    query: "",
+    editPost: ""
   };
 
   handleInputChange = e => {
@@ -50,6 +53,14 @@ class Posts extends React.Component {
   };
 
   handleSubmit = e => e.preventDefault();
+
+  handleEdit = id => {
+    console.log("edit: ", id);
+  };
+
+  handleDelete = id => {
+    console.log("delete: ", id);
+  };
 
   componentDidMount() {
     getPosts().then(posts =>
@@ -92,7 +103,12 @@ class Posts extends React.Component {
                     </h3>
                     <div>
                       <IconContainer>
-                        <Dropdown style={{ paddingBottom: 0 }} />
+                        <Dropdown
+                          style={{ paddingBottom: 0 }}
+                          postId={post.id}
+                          handleEdit={this.handleEdit}
+                          handleDelete={this.handleDelete}
+                        />
                       </IconContainer>
                     </div>
                   </CurrentPost>
