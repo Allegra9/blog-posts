@@ -2,6 +2,7 @@ import React from "react";
 import { getPosts } from "../adapter/api";
 import SearchIcon from "@material-ui/icons/Search";
 import Dropdown from "./dropdown";
+import EditForm from "./editForm";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -18,7 +19,7 @@ class Posts extends React.Component {
     filteredPosts: [],
     clicked: [],
     query: "",
-    editPost: ""
+    postToEdit: ""
   };
 
   handleInputChange = e => {
@@ -54,12 +55,20 @@ class Posts extends React.Component {
 
   handleSubmit = e => e.preventDefault();
 
-  handleEdit = id => {
-    console.log("edit: ", id);
+  handleEdit = post => {
+    this.setState({
+      postToEdit: post
+    });
   };
 
-  handleDelete = id => {
-    console.log("delete: ", id);
+  cancelEdit = () => {
+    this.setState({
+      postToEdit: ""
+    });
+  };
+
+  handleDelete = post => {
+    console.log("delete: ", post);
   };
 
   componentDidMount() {
@@ -71,7 +80,7 @@ class Posts extends React.Component {
   }
 
   render() {
-    const { posts, clicked, query, filteredPosts } = this.state;
+    const { posts, clicked, query, filteredPosts, postToEdit } = this.state;
     const allPosts = query ? filteredPosts : posts;
     return (
       <Container>
@@ -82,48 +91,57 @@ class Posts extends React.Component {
               ☕️
             </span>
           </h1>
-          <form onSubmit={this.handleSubmit}>
-            <SearchIcon style={{ color: "#181bed", paddingBottom: 0 }} />
-            <input
-              type="text"
-              placeholder="Search..."
-              onChange={this.handleInputChange}
-            />
-          </form>
-          {allPosts.length > 0 ? (
-            allPosts.map((post, i) => (
-              <div key={post.id}>
-                {clicked.includes(post.id) ? (
-                  <CurrentPost>
-                    <h3
-                      css={pinkFont}
-                      onClick={() => this.handleClose(post.id)}
-                    >
-                      {post.title}
-                    </h3>
-                    <div>
-                      <IconContainer>
-                        <Dropdown
-                          style={{ paddingBottom: 0 }}
-                          postId={post.id}
-                          handleEdit={this.handleEdit}
-                          handleDelete={this.handleDelete}
-                        />
-                      </IconContainer>
-                    </div>
-                  </CurrentPost>
-                ) : (
-                  <h3 css={pinkFont} onClick={() => this.handleOpen(post.id)}>
-                    {post.title}
-                  </h3>
-                )}
-                {clicked.includes(post.id) ? <p>{post.body}</p> : null}
-              </div>
-            ))
+          {postToEdit ? (
+            <EditForm post={postToEdit} cancel={this.cancelEdit} />
           ) : (
-            <div>
-              <h3>no posts matching "{query}"</h3>
-            </div>
+            <React.Fragment>
+              <form onSubmit={this.handleSubmit}>
+                <SearchIcon style={{ color: "#181bed", paddingBottom: 0 }} />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  onChange={this.handleInputChange}
+                />
+              </form>
+              {allPosts.length > 0 ? (
+                allPosts.map((post, i) => (
+                  <div key={post.id}>
+                    {clicked.includes(post.id) ? (
+                      <CurrentPost>
+                        <h3
+                          css={pinkFont}
+                          onClick={() => this.handleClose(post.id)}
+                        >
+                          {post.title}
+                        </h3>
+                        <div>
+                          <IconContainer>
+                            <Dropdown
+                              style={{ paddingBottom: 0 }}
+                              post={post}
+                              handleEdit={this.handleEdit}
+                              handleDelete={this.handleDelete}
+                            />
+                          </IconContainer>
+                        </div>
+                      </CurrentPost>
+                    ) : (
+                      <h3
+                        css={pinkFont}
+                        onClick={() => this.handleOpen(post.id)}
+                      >
+                        {post.title}
+                      </h3>
+                    )}
+                    {clicked.includes(post.id) ? <p>{post.body}</p> : null}
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <h3>no posts matching "{query}"</h3>
+                </div>
+              )}
+            </React.Fragment>
           )}
         </Content>
       </Container>

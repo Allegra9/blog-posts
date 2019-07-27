@@ -7,7 +7,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const Dropdown = ({ handleEdit, handleDelete, postId }) => {
+const Dropdown = ({ handleEdit, handleDelete, post }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -29,14 +29,14 @@ const Dropdown = ({ handleEdit, handleDelete, postId }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleEdit(postId)}>
+        <MenuItem onClick={() => handleEdit(post)}>
           <ListItemIcon style={{ paddingRight: "0 !important", minWidth: 33 }}>
             <EditIcon />
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
 
-        <MenuItem onClick={() => handleDelete(postId)}>
+        <MenuItem onClick={() => handleDelete(post)}>
           <ListItemIcon style={{ paddingRight: "0 !important", minWidth: 33 }}>
             <DeleteIcon />
           </ListItemIcon>
