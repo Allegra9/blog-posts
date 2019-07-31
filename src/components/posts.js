@@ -23,21 +23,18 @@ class Posts extends React.Component {
   };
 
   handleInputChange = e => {
-    const { posts, query } = this.state;
-    this.setState(
-      {
-        query: e.target.value
-      },
-      () => {
-        if (query && query.length > 0) {
-          const postsCopy = [...posts];
-          const filtered = postsCopy.filter(post => post.title.includes(query));
-          this.setState({
-            filteredPosts: filtered
-          });
-        }
-      }
-    );
+    const query = e.target.value;
+    const { posts } = this.state;
+
+    if (query && query.length > 0) {
+      console.log(query);
+      const postsCopy = [...posts];
+      const filtered = postsCopy.filter(post => post.title.includes(query));
+      this.setState({
+        filteredPosts: filtered,
+        query
+      });
+    }
   };
 
   handleOpen = id => {
