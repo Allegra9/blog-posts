@@ -1,6 +1,7 @@
 import React from "react";
 import { editPost } from "../adapter/api";
 import EditIcon from "@material-ui/icons/Edit";
+//import blueCoffee from "../images/blueCoffeeCup.png";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -68,7 +69,7 @@ class EditForm extends React.Component {
     return (
       <Container>
         <h2>
-          <EditIcon style={{ marginRight: 5, color: "#d23669" }} />
+          <EditIcon style={{ marginRight: 5, color: "#222" }} />
           Edit mode
         </h2>
         <form onSubmit={this.handleSubmit}>
@@ -105,13 +106,21 @@ class EditForm extends React.Component {
 export default EditForm;
 
 const pink = "#d23669";
+const dark = "#222";
 const mont = "Montserrat, serif";
+const pastelBlue = "#a6e0ff";
+const cream = "#fcf9ed";
+
+// background: url(${blueCoffee});
+// background-size: 160px;
 
 const Container = styled.div`
   text-align: center;
   font-family: ${mont};
-  border: 1px solid ${pink};
+  border: 2px solid ${dark};
+  background: ${pastelBlue};
   border-radius: 10px;
+  margin-bottom: 200px;
   form {
     width: 70%;
     margin: auto;
@@ -121,7 +130,7 @@ const Container = styled.div`
     font-family: ${mont};
     font-size: 14px;
     border-radius: 10px;
-    border: 1px solid ${pink};
+    background: ${cream};
     padding: 10px;
     &:focus {
       outline: none !important;
@@ -129,6 +138,17 @@ const Container = styled.div`
   }
   h4 {
     text-align: left;
+  }
+  @media screen and (max-width: 750px) {
+    form {
+      width: 80%;
+    }
+    textarea {
+      width: 90%;
+    }
+    h4 {
+      text-align: center;
+    }
   }
 `;
 
@@ -155,13 +175,14 @@ const Buttons = styled.div`
 `;
 
 const SubmitBtn = styled.div`
-  background: green;
+  background: ${pink};
   color: #fff;
 `;
 
 const CancelBtn = styled.div`
   color: grey;
   border: 1px solid grey;
+  background: ${cream};
   height: 20px;
 `;
 

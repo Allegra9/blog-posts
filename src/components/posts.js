@@ -83,7 +83,7 @@ class Posts extends React.Component {
       <Container>
         <Content>
           <h1>
-            Blog posts{" "}
+            Blog posts {window.innerHeight}{" "}
             <span role="img" aria-label="coffee cup">
               ☕️
             </span>
@@ -149,6 +149,7 @@ export default Posts;
 
 const pink = "#d23669";
 const purple = "#181bed";
+const cream = "#fffcf2";
 const lightGrey = "#c2c0c0";
 const dark = "#222";
 const mont = "Montserrat, serif";
@@ -157,7 +158,10 @@ const thin = 400;
 const demi = 600;
 const thick = 900;
 
-const Container = styled.div``;
+const Container = styled.div`
+  background: ${cream};
+  border: 1px solid ${cream};
+`;
 
 const Content = styled.div`
   width: 45%;
@@ -207,6 +211,9 @@ const Content = styled.div`
   @media screen and (max-width: 768px) {
     width: 80%;
   }
+  @media screen and (max-width: 750px) {
+    width: 90%;
+  }
 `;
 
 const pinkFont = css`
@@ -236,7 +243,7 @@ const IconContainer = styled.div`
   svg {
     color: ${lightGrey};
     &:hover {
-      color: ${pink};
+      color: ${purple};
     }
   }
 `;
