@@ -108,7 +108,8 @@ export default EditForm;
 const pink = "#d23669";
 const dark = "#222";
 const mont = "Montserrat, serif";
-const pastelBlue = "#a6e0ff";
+// const pastelBlue = "#a6e0ff";
+const newBlue = "#66C6DA";
 const cream = "#fcf9ed";
 
 // background: url(${blueCoffee});
@@ -118,7 +119,7 @@ const Container = styled.div`
   text-align: center;
   font-family: ${mont};
   border: 2px solid ${dark};
-  background: ${pastelBlue};
+  background: ${newBlue};
   border-radius: 10px;
   margin-bottom: 200px;
   form {

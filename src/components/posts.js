@@ -3,6 +3,8 @@ import { getPosts } from "../adapter/api";
 import SearchIcon from "@material-ui/icons/Search";
 import Dropdown from "./dropdown";
 import EditForm from "./editForm";
+import DeleteDialog from "./deleteDialog";
+import { deletePost } from "../adapter/api";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -19,7 +21,8 @@ class Posts extends React.Component {
     filteredPosts: [],
     clicked: [],
     query: "",
-    postToEdit: ""
+    postToEdit: "",
+    postToDelete: ""
   };
 
   handleInputChange = e => {
@@ -66,6 +69,35 @@ class Posts extends React.Component {
 
   handleDelete = post => {
     console.log("delete: ", post);
+    this.setState({
+      postToDelete: post
+    });
+  };
+
+  deleteAction = post => {
+    console.log(post);
+    deletePost(post).then(res => {
+      if (res.error) {
+        console.log(res.error);
+      } else {
+        console.log("deleted: ", res); //just an id
+        this.cancelDelete();
+        this.handleClose(post.id);
+        //fake the deletion:
+        const { posts } = this.state;
+        const postsCopy = [...posts];
+        const filtered = postsCopy.filter(p => p.id !== post.id);
+        this.setState({
+          posts: filtered
+        });
+      }
+    });
+  };
+
+  cancelDelete = () => {
+    this.setState({
+      postToDelete: ""
+    });
   };
 
   componentDidMount() {
@@ -77,7 +109,14 @@ class Posts extends React.Component {
   }
 
   render() {
-    const { posts, clicked, query, filteredPosts, postToEdit } = this.state;
+    const {
+      posts,
+      clicked,
+      query,
+      filteredPosts,
+      postToEdit,
+      postToDelete
+    } = this.state;
     const allPosts = query ? filteredPosts : posts;
     return (
       <Container>
@@ -88,6 +127,13 @@ class Posts extends React.Component {
               ☕️
             </span>
           </h1>
+          {postToDelete ? (
+            <DeleteDialog
+              post={postToDelete}
+              deleteAction={this.deleteAction}
+              cancel={this.cancelDelete}
+            />
+          ) : null}
           {postToEdit ? (
             <EditForm post={postToEdit} cancel={this.cancelEdit} />
           ) : (
