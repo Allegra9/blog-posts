@@ -117,6 +117,7 @@ class Posts extends React.Component {
       postToEdit,
       postToDelete
     } = this.state;
+    const { handleThemeChange } = this.props;
     const allPosts = query ? filteredPosts : posts;
     return (
       <Container>
@@ -127,6 +128,7 @@ class Posts extends React.Component {
               ☕️
             </span>
           </h1>
+          <div onClick={handleThemeChange}>switch theme</div>
           {postToDelete ? (
             <DeleteDialog
               post={postToDelete}
@@ -205,7 +207,7 @@ const demi = 600;
 const thick = 900;
 
 const Container = styled.div`
-  background: ${cream};
+  background: ${props => props.theme.color};
   border: 1px solid ${cream};
 `;
 
