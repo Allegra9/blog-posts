@@ -1,35 +1,34 @@
 import React from "react";
 import Posts from "./components/posts";
 import { ThemeProvider } from "emotion-theming";
-import { red } from "@material-ui/core/colors";
 
-const dayTheme = {
+const lightTheme = {
   color: "red",
   textColor: "#000"
 };
 
-const nightTheme = {
+const darkTheme = {
   color: "#222",
   textColor: "#fff"
 };
 class App extends React.Component {
   state = {
     isDay: true,
-    theme: dayTheme
+    theme: lightTheme
   };
 
   handleThemeChange = () => {
     const isDay = !this.state.isDay;
     this.setState({
       isDay: isDay,
-      theme: isDay ? dayTheme : nightTheme
+      theme: isDay ? lightTheme : darkTheme
     });
   };
   render() {
-    const { theme } = this.state;
+    const { theme, isDay } = this.state;
     return (
       <ThemeProvider theme={theme}>
-        <Posts handleThemeChange={this.handleThemeChange} />
+        <Posts handleThemeChange={this.handleThemeChange} isDay={isDay} />
       </ThemeProvider>
     );
   }

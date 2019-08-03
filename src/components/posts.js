@@ -5,6 +5,10 @@ import Dropdown from "./dropdown";
 import EditForm from "./editForm";
 import DeleteDialog from "./deleteDialog";
 import { deletePost } from "../adapter/api";
+import Toggle from "./switch/Toggle";
+
+import sun from "../images/sun.png";
+import moon from "../images/moon.png";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -117,7 +121,7 @@ class Posts extends React.Component {
       postToEdit,
       postToDelete
     } = this.state;
-    const { handleThemeChange } = this.props;
+    const { handleThemeChange, isDay } = this.props;
     const allPosts = query ? filteredPosts : posts;
     return (
       <Container>
@@ -128,7 +132,34 @@ class Posts extends React.Component {
               ☕️
             </span>
           </h1>
-          <div onClick={handleThemeChange}>switch theme</div>
+          <Switch>
+            <Toggle
+              icons={{
+                checked: (
+                  <img
+                    src={moon}
+                    width="16"
+                    height="16"
+                    role="presentation"
+                    style={{ pointerEvents: "none" }}
+                    alt="moon icon"
+                  />
+                ),
+                unchecked: (
+                  <img
+                    src={sun}
+                    width="16"
+                    height="16"
+                    role="presentation"
+                    style={{ pointerEvents: "none" }}
+                    alt="sun icon"
+                  />
+                )
+              }}
+              checked={!isDay}
+              onChange={handleThemeChange}
+            />
+          </Switch>
           {postToDelete ? (
             <DeleteDialog
               post={postToDelete}
@@ -139,7 +170,13 @@ class Posts extends React.Component {
           {postToEdit ? (
             <EditForm post={postToEdit} cancel={this.cancelEdit} />
           ) : (
-            <React.Fragment>
+            <div
+              style={
+                allPosts.length < 20
+                  ? { paddingBottom: 700 }
+                  : { paddingBottom: 100 }
+              }
+            >
               <form onSubmit={this.handleSubmit}>
                 <SearchIcon style={{ color: "#181bed", paddingBottom: 0 }} />
                 <input
@@ -182,11 +219,11 @@ class Posts extends React.Component {
                   </div>
                 ))
               ) : (
-                <div>
+                <div style={{ paddingBottom: 700 }}>
                   <h3>no posts matching "{query}"</h3>
                 </div>
               )}
-            </React.Fragment>
+            </div>
           )}
         </Content>
       </Container>
@@ -216,6 +253,7 @@ const Content = styled.div`
   margin: auto;
   text-align: left;
   text-rendering: optimizeLegibility;
+  padding-top: 1em;
   h1 {
     color: ${dark};
     font-size: 35px;
@@ -261,6 +299,25 @@ const Content = styled.div`
   }
   @media screen and (max-width: 750px) {
     width: 90%;
+    h1 {
+      font-size: 30px;
+    }
+  }
+  @media screen and (max-width: 360px) {
+    h1 {
+      font-size: 25px;
+    }
+  }
+`;
+
+const Switch = styled.div`
+  float: right;
+  margin-top: -60px;
+  @media screen and (max-width: 750px) {
+    margin-top: -53px;
+  }
+  @media screen and (max-width: 360px) {
+    margin-top: -48px;
   }
 `;
 
