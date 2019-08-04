@@ -6,20 +6,19 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const DeleteDialog = ({ post, deleteAction, cancel }) => {
-  const [open, setOpen] = React.useState(true);
+const DeleteDialog = ({ post, handleDelete, cancel }) => {
+  // const [open, setOpen] = React.useState(true);
 
-  function handleClose() {
-    setOpen(false);
-    cancel();
-  }
-  console.log(post);
+  const handleClose = post => {
+    // setOpen(false);
+    // cancel(post);
+  };
 
   return (
     <div>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={true}
+        onClose={cancel(post)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -32,11 +31,11 @@ const DeleteDialog = ({ post, deleteAction, cancel }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant="contained">
+          <Button onClick={handleClose(post)} variant="contained">
             cancel
           </Button>
           <Button
-            onClick={() => deleteAction(post)}
+            onClick={() => handleDelete(post)}
             color="secondary"
             variant="contained"
           >

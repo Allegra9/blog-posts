@@ -71,34 +71,84 @@ class Posts extends React.Component {
     });
   };
 
-  handleDelete = post => {
+  selectToDelete = post => {
     console.log("delete: ", post);
     this.setState({
       postToDelete: post
     });
   };
 
-  deleteAction = post => {
-    console.log(post);
+  handleDelete = post => {
+    //assume the res is success:
+    //(optimistic rendering)
+    let now = new Date();
+    let time =
+      now.getHours() +
+      ":" +
+      now.getMinutes() +
+      ":" +
+      now.getSeconds() +
+      ":" +
+      now.getMilliseconds();
+    console.log("deleted:", time, post);
+    this.cancelDelete();
+    this.handleClose(post.id);
+    //fake the deletion:
+    const { posts } = this.state;
+    const postsCopy = [...posts];
+    const filtered = postsCopy.filter(p => p.id !== post.id);
+    this.setState({
+      posts: filtered
+    });
     deletePost(post).then(res => {
       if (res.error) {
         console.log(res.error);
-      } else {
-        console.log("deleted: ", res); //just an id
-        this.cancelDelete();
-        this.handleClose(post.id);
-        //fake the deletion:
+        alert(res.error);
+        //then we will bring back the "deleted" post in it's place (sorting by id)
         const { posts } = this.state;
-        const postsCopy = [...posts];
-        const filtered = postsCopy.filter(p => p.id !== post.id);
+        let postsCopy = [...posts, post];
+        postsCopy = postsCopy.sort(this.compareValues("id"));
         this.setState({
-          posts: filtered
+          posts: postsCopy
         });
+      } else {
+        let now = new Date();
+        let time =
+          now.getHours() +
+          ":" +
+          now.getMinutes() +
+          ":" +
+          now.getSeconds() +
+          ":" +
+          now.getMilliseconds();
+        console.log("it's all already done", time);
       }
     });
   };
 
-  cancelDelete = () => {
+  compareValues = (key, order = "asc") => {
+    return function(a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        return 0;
+      }
+
+      const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+      const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      console.log(comparison);
+      return order === "desc" ? comparison * -1 : comparison;
+    };
+  };
+
+  cancelDelete = post => {
+    // this.handleClose(post.id);
     this.setState({
       postToDelete: ""
     });
@@ -123,6 +173,7 @@ class Posts extends React.Component {
     } = this.state;
     const { handleThemeChange, isDay } = this.props;
     const allPosts = query ? filteredPosts : posts;
+    console.log(postToDelete);
     return (
       <Container>
         <Content>
@@ -160,13 +211,13 @@ class Posts extends React.Component {
               onChange={handleThemeChange}
             />
           </Switch>
-          {postToDelete ? (
+          {/* {postToDelete ? (
             <DeleteDialog
               post={postToDelete}
-              deleteAction={this.deleteAction}
+              handleDelete={this.handleDelete}
               cancel={this.cancelDelete}
             />
-          ) : null}
+          ) : null} */}
           {postToEdit ? (
             <EditForm post={postToEdit} cancel={this.cancelEdit} />
           ) : (
@@ -203,6 +254,7 @@ class Posts extends React.Component {
                               post={post}
                               handleEdit={this.handleEdit}
                               handleDelete={this.handleDelete}
+                              // selectToDelete={this.selectToDelete}
                             />
                           </IconContainer>
                         </div>
@@ -212,7 +264,7 @@ class Posts extends React.Component {
                         css={pinkFont}
                         onClick={() => this.handleOpen(post.id)}
                       >
-                        {post.title}
+                        {post.title} - {post.id}
                       </h3>
                     )}
                     {clicked.includes(post.id) ? <p>{post.body}</p> : null}

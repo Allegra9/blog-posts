@@ -7,7 +7,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const Dropdown = ({ handleEdit, handleDelete, post }) => {
+const Dropdown = ({ handleEdit, post, handleDelete }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
