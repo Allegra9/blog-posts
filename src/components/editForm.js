@@ -118,8 +118,8 @@ const cream = "#fcf9ed";
 const Container = styled.div`
   text-align: center;
   font-family: ${mont};
-  border: 2px solid ${dark};
-  background: ${newBlue};
+  border: 2px solid ${props => props.theme.textColor};
+  background: ${props => props.theme.backgroundColor};
   border-radius: 10px;
   margin-bottom: 200px;
   form {
@@ -137,8 +137,12 @@ const Container = styled.div`
       outline: none !important;
     }
   }
+  h2 {
+    color: ${props => props.theme.textColor};
+  }
   h4 {
     text-align: left;
+    color: ${props => props.theme.textColor};
   }
   @media screen and (max-width: 750px) {
     form {

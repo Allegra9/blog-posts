@@ -296,7 +296,7 @@ const demi = 600;
 const thick = 900;
 
 const Container = styled.div`
-  background: ${props => props.theme.color};
+  background: ${props => props.theme.backgroundColor};
   border: 1px solid ${cream};
 `;
 
@@ -307,7 +307,7 @@ const Content = styled.div`
   text-rendering: optimizeLegibility;
   padding-top: 1em;
   h1 {
-    color: ${dark};
+    color: ${props => props.theme.textColor};
     font-size: 35px;
     font-weight: ${thick};
   }
@@ -316,7 +316,7 @@ const Content = styled.div`
     margin-bottom: 20px;
   }
   p {
-    color: ${dark};
+    color: ${props => props.theme.textColor};
     font-family: ${mont};
     font-size: 15px;
     font-weight: ${thin};

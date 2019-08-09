@@ -3,12 +3,12 @@ import Posts from "./components/posts";
 import { ThemeProvider } from "emotion-theming";
 
 const lightTheme = {
-  color: "red",
-  textColor: "#000"
+  backgroundColor: "#fff",
+  textColor: "#222"
 };
 
 const darkTheme = {
-  color: "#222",
+  backgroundColor: "#222",
   textColor: "#fff"
 };
 class App extends React.Component {
