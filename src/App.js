@@ -13,22 +13,27 @@ const darkTheme = {
 };
 class App extends React.Component {
   state = {
-    isDay: true,
-    theme: lightTheme
+    isDay: true
   };
+
+  componentDidMount() {
+    this.setState({
+      isDay: localStorage.getItem("dark") === "true"
+    });
+  }
 
   handleThemeChange = () => {
     const isDay = !this.state.isDay;
+    localStorage.setItem("dark", isDay);
     this.setState({
-      isDay: isDay,
-      theme: isDay ? lightTheme : darkTheme
+      isDay
     });
   };
   render() {
-    const { theme, isDay } = this.state;
+    const isDark = localStorage.getItem("dark") === "true";
     return (
-      <ThemeProvider theme={theme}>
-        <Posts handleThemeChange={this.handleThemeChange} isDay={isDay} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <Posts handleThemeChange={this.handleThemeChange} isDark={isDark} />
       </ThemeProvider>
     );
   }

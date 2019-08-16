@@ -171,7 +171,7 @@ class Posts extends React.Component {
       postToEdit,
       postToDelete
     } = this.state;
-    const { handleThemeChange, isDay } = this.props;
+    const { handleThemeChange, isDark } = this.props;
     const allPosts = query ? filteredPosts : posts;
     console.log(postToDelete);
     return (
@@ -207,7 +207,7 @@ class Posts extends React.Component {
                   />
                 )
               }}
-              checked={!isDay}
+              checked={!isDark}
               onChange={handleThemeChange}
             />
           </Switch>
